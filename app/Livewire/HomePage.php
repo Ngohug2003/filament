@@ -28,20 +28,18 @@ class HomePage extends Component
 
     public function render()
     {
-        $category = $this->categoryRepository->all();
        $data = $this->postRepository->getHomePageData($this->search);
-       $getViews = $this->postRepository->getViewAllPosts();
        $featuredPosts = $data['featuredPosts'];
        $latestPosts = $data['latestPosts'];
        $searchResults = $data['searchResults'];
 
         return view('livewire.home-page', [
-            'category' => $category,
+        
             'featuredPosts' => $featuredPosts,
             'latestPosts' => $latestPosts,
             'searchResults' => $searchResults,
             'search' => $this->search,
-            'getViews' => $getViews
+          
         ]);
       
     }

@@ -52,7 +52,7 @@ class PostRepository implements PostRepositoryInterface
     public function getLatestPosts($limit = 5)
     {
         return $this->model
-            ->select('id', 'title', 'content', 'category_id', 'featured_image')
+            ->select('id', 'title', 'content', 'category_id', 'featured_image','slug')
             ->with(['category:id,name'])
             ->latest()
             ->take($limit)
@@ -68,7 +68,7 @@ class PostRepository implements PostRepositoryInterface
     public function getFeaturedPosts($limit = 1)
     {
         return $this->model
-            ->select('id', 'title', 'content', 'category_id', 'featured_image')
+            ->select('id', 'title', 'content', 'category_id', 'featured_image','slug')
             ->with(['category:id,name'])
             ->where('is_published', true)
             ->take($limit)
@@ -85,7 +85,7 @@ class PostRepository implements PostRepositoryInterface
     public function searchPosts($search, $limit = null)
     {
         $query = $this->model
-            ->select('id', 'title', 'content', 'category_id', 'featured_image')
+            ->select('id', 'title', 'content', 'category_id', 'featured_image','slug')
             ->with('category:id,name')
             ->where(function ($q) use ($search) {
                 $q->where('title', 'like', "%{$search}%")
@@ -122,9 +122,13 @@ class PostRepository implements PostRepositoryInterface
     public function getViewAllPosts($limit = 5)
     {
         return $this->model
-            ->select('id','title')
+            ->select('id','title','slug')
             ->orderBy('views')
             ->limit($limit)
             ->get();
+    }
+    public function getBySlugPost($slug)
+    {
+        return $this->model->where('slug', $slug)->firstOrFail();
     }
 }

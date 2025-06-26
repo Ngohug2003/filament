@@ -6,10 +6,10 @@
                Trang chủ
             </a>
         @foreach ($categorys as $category)
-            <a wire:navigate href="{{ route('category') }}"
-                class="hover:text-blue-400 transition duration-300 ease-in-out hover:scale-105 py-1">
-                {{ $category->name }}
-            </a>
+        <a wire:navigate href="{{ route('category.posts', ['slug' => $category->slug]) }}"
+            class="hover:text-blue-400 transition duration-300 ease-in-out hover:scale-105 py-1">
+            {{ $category->name }}
+         </a>
         @endforeach
     </div>
 </nav>

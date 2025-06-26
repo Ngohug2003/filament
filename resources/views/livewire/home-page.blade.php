@@ -18,7 +18,7 @@
                                 <span
                                     class="text-xs font-semibold text-blue-600 uppercase">{{ $post->category->name }}</span>
                                 <h3 class="text-xl font-bold mt-2 leading-tight">
-                                    <a href="#"
+                                    <a href="{{ route('post.show', ['slug' => $post->slug]) }}"
                                         class="hover:text-blue-700 transition duration-200">{{ $post->title }}</a>
                                 </h3>
                                 <p class="text-gray-600 text-sm mt-2 line-clamp-3">
@@ -46,7 +46,7 @@
                                     <span
                                         class="text-xs font-semibold text-blue-600 uppercase">{{ $featuredPost->category->name }}</span>
                                     <h3 class="text-xl font-bold mt-2 leading-tight">
-                                        <a href="#"
+                                        <a href="{{ route('post.show', ['slug' => $featuredPost->slug]) }}"
                                             class="hover:text-blue-700 transition duration-200">{{ $featuredPost->title }}</a>
                                     </h3>
                                     <p class="text-gray-600 text-sm mt-2 line-clamp-3">
@@ -94,14 +94,19 @@
                     @foreach ($latestPosts as $latestPost)
                         <div class="space-y-6">
                             <div class="flex items-start space-x-4 pb-4 border-b border-gray-200 last:border-b-0">
-                                <img src="{{ Storage::url($latestPost->featured_image) }}" alt="{{ $latestPost->title }}"
+                                <img src="{{ Storage::url($latestPost->featured_image) }}"
+                                    alt="{{ $latestPost->title }}"
                                     class="w-32 h-20 object-cover rounded-lg flex-shrink-0">
                                 <div>
-                                    <span class="text-xs font-semibold text-purple-600 uppercase">{{ $latestPost->category->name }}</span>
+                                    <span
+                                        class="text-xs font-semibold text-purple-600 uppercase">{{ $latestPost->category->name }}</span>
                                     <h3 class="text-lg font-bold leading-tight mt-1">
-                                        <a href="#" class="hover:text-blue-700 transition duration-200">    {{ $latestPost->title }}</a>
+                                        <a href="{{ route('post.show', ['slug' => $latestPost->slug]) }}" class="hover:text-blue-700 transition duration-200">
+                                            {{ $latestPost->title }}</a>
                                     </h3>
-                                    <p class="text-gray-600 text-sm mt-1 line-clamp-2">{{ Str::words(strip_tags(html_entity_decode($latestPost->content)), 20, '...') }}</p>
+                                    <p class="text-gray-600 text-sm mt-1 line-clamp-2">
+                                        {{ Str::words(strip_tags(html_entity_decode($latestPost->content)), 20, '...') }}
+                                    </p>
                                     <span class="text-gray-500 text-xs mt-2 block"></span>
                                 </div>
                             </div>
@@ -114,46 +119,6 @@
         </div>
 
         {{-- Sidebar --}}
-        <aside class="md:col-span-1 space-y-8">
-            <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-200">
-                <h3 class="text-xl font-bold text-gray-900 mb-4 border-b border-gray-300 pb-2">Tin tức phổ biến</h3>
-                <ul class="space-y-3">
-                    @foreach ($getViews as $key => $item)
-                    <li><a wire:key="{{ $item->id }}" href="#" class="block hover:text-blue-600 text-gray-700">{{ $key + 1 }}. {{ $item->title }}</a></li>
-                    @endforeach
-                  
-                </ul>
-            </div>
-
-            <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-200">
-                <h3 class="text-xl font-bold text-gray-900 mb-4 border-b border-gray-300 pb-2">Chuyên mục</h3>
-                <div class="flex flex-wrap gap-2">
-                    @php
-                        // Mảng chứa các lớp CSS cho 5 màu
-                        $colors = [
-                            'bg-blue-100 text-blue-800 hover:bg-blue-200',
-                            'bg-green-100 text-green-800 hover:bg-green-200',
-                            'bg-purple-100 text-purple-800 hover:bg-purple-200',
-                            'bg-pink-100 text-pink-800 hover:bg-pink-200',
-                            'bg-yellow-100 text-yellow-800 hover:bg-yellow-200',
-                        ];
-                    @endphp
-                    <div class="flex flex-wrap gap-2">
-                        @foreach ($category as $index => $item)
-                            <a wire:key="{{ $item->id }}" href="#"
-                                class="{{ $colors[$index % count($colors)] }} px-3 py-1 rounded-full text-sm">
-                                {{ $item->name }}
-                            </a>
-                        @endforeach
-                    </div>
-
-                </div>
-            </div>
-
-            <div
-                class="bg-white p-6 rounded-xl shadow-lg border border-gray-200 text-center h-48 flex justify-center items-center bg-gray-200 text-gray-600 font-semibold">
-                KHU VỰC QUẢNG CÁO 300x250
-            </div>
-        </aside>
+        @livewire('aside')
     </main>
 </div>
