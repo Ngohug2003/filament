@@ -1,5 +1,6 @@
 <div>
-    <aside class="md:col-span-1 space-y-8">
+    <aside wire:poll.keep-alive.2s class="md:col-span-1 space-y-8">
+        
         <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-200">
             <h3 class="text-xl font-bold text-gray-900 mb-4 border-b border-gray-300 pb-2">Tin tức phổ biến</h3>
             <ul class="space-y-3">

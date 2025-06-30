@@ -6,6 +6,7 @@ use App\Filament\Resources\CategoryResource\Pages;
 use App\Filament\Resources\CategoryResource\RelationManagers;
 use App\Filament\Resources\CategoryResource\RelationManagers\StatesRelationManager;
 use App\Models\Category;
+use Dom\Text;
 use Filament\Forms;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
@@ -38,7 +39,7 @@ class CategoryResource extends Resource
                 TextInput::make('name')
                     ->label('Danh mục bài viết')
                     ->live(onBlur: true) // Tự động cập nhật khi rời khỏi trường
-                    // Sau khi nhập tên, tự động tạo slug nếu đang ở chế độ tạo mới
+                    
                     ->afterStateUpdated(
                         fn(string $operation, $state, Forms\Set $set) =>
                         $operation == 'create' ? $set('slug', str()->slug($state)) : null
@@ -47,11 +48,12 @@ class CategoryResource extends Resource
                     ->unique(Category::class, 'name', ignoreRecord: true) // Không trùng tên
                     ->columnSpanFull(),
 
-                // Trường slug (được tự động tạo, không cho sửa)
+            
                 TextInput::make('slug')
                     ->label('Slug')
                     ->required()
-                    ->disabled() // Không cho phép chỉnh sửa trực tiếp
+                    ->disabled() 
+                    ->dehydrated()
                     ->unique(Category::class, 'slug', ignoreRecord: true) // Không trùng slug
                     ->columnSpan(2),
             ]);
@@ -64,6 +66,10 @@ class CategoryResource extends Resource
             ->columns([
                 // Cột tên danh mục, có thể tìm kiếm và sắp xếp
                 TextColumn::make('name')
+                    ->searchable()
+                    ->sortable(),
+
+                TextColumn::make('slug')
                     ->searchable()
                     ->sortable(),
             ])

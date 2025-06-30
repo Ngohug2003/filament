@@ -18,19 +18,5 @@ class TagRepository implements TagRepositoryInterface
     {
         return $this->model->all();
     }
-
-    public function find($id)
-    {
-        return $this->model->findOrFail($id);
-    }
-
-    public function create(array $data)
-    {
-        return $this->model->create($data);
-    }
-
-    public function searchByName(string $name)
-    {
-        return $this->model->where('name', 'like', "%{$name}%")->limit(10)->get();
-    }
+   
 }
